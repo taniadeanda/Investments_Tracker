@@ -1,0 +1,168 @@
+/* Reset básico */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F0F1F2;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #222;
+}
+
+/* ===== MENÚ ===== */
+.menu {
+  background-color: #ffffff;
+  padding: 25px 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Sombra sutil para separar del fondo */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.menu h1 {
+  margin: 0;               /* antes tenías 40px, eso lo desalineaba */
+  font-size: 20px;
+}
+
+.menu nav {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;       /* empuja los botones a la derecha */
+}
+
+.menu button {
+  border: none;
+  background-color: #f0f0f0;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease;
+}
+
+.menu button:hover {
+  background-color: #e0e0e0;
+}
+
+/* ===== CONTENIDO GENERAL ===== */
+.contenido {
+  padding: 0px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.contenido h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+}
+
+.contenido h3 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.contenido p {
+  margin: 0;
+}
+
+/* ===== RESUMEN (tarjetas) ===== */
+.cards {
+  display: flex;
+  gap: 16px;              /* separación entre tarjetas */
+  margin-top: 20px;
+  flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+}
+
+.card {
+  background-color: #ffffff;   /* antes era #F0F1F2, mismo color que el body, no se veía */
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== TABLA DE INVERSIONES ===== */
+.tabla-inversiones {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.encabezado {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 6px;
+  margin: 0;
+}
+
+.celda {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 1rem;
+  color: #222;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.celda:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.celda.nombre {
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+.celda.total {
+  font-weight: 600;
+  color: #111;
+}
+
+.celda.rendimiento {
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.agregar {
+  display: block;
+  margin: 24px 0 0 auto;   /* top | derecha | abajo | izquierda = auto */
+  background-color: #111;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease;
+}
+
+.agregar:hover {
+  background-color: #333;
+}
+
+section {
+    margin-bottom: 48px;  
+    margin-top: 48px;
+}
