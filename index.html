@@ -1,12 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<title>"Investment tracker"</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Investment Tracker</title>
 </head>
 <body>
-    
+  <header class="menu">
+    <h1>Investment Tracker</h1>
+    <nav>
+      <button>Ingresar</button>
+      <button>Registrarte</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <section class="resumen">
+      <h2>Resumen</h2>
+      <h3>Valor de mi portafolio</h3>
+      <p class="valor-portafolio">$2,342,009 MXN</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Invertido</h3>
+          <p>$1,000</p>
+        </div>
+        <div class="card">
+          <h3>Rendimiento Promedio</h3>
+          <p>%17</p>
+        </div>
+        <div class="card">
+          <h3>Ganancias Estimadas</h3>
+          <p>$1,170</p>
+        </div>
+      </div>
+    </section>
+    <section class="inversiones">
+      <h2>Mis inversiones</h2>
+      <div class="tabla-inversiones">
+        <p class="encabezado">Plataforma</p>
+        <p class="encabezado">Capital</p>
+        <p class="encabezado">Rendimiento</p>
+        <div class="celda nombre">YoTePresto</div>
+        <div class="celda total">$20,000</div>
+        <div class="celda rendimiento">+10.5%</div>
+        <div class="celda nombre">Nu</div>
+        <div class="celda total">$20,000</div>
+        <div class="celda rendimiento">+10.5%</div>
+        <div class="celda nombre">MercadoPago</div>
+        <div class="celda total">$20,000</div>
+        <div class="celda rendimiento">+10.5%</div>
+        <div class="celda nombre">Lendera</div>
+        <div class="celda total">$20,000</div>
+        <div class="celda rendimiento">+10.5%</div>
+      </div>
+      <button class="agregar">Agregar inversión +</button>
+    </section>
+  </main>
 </body>
-
 </html>
-
-
