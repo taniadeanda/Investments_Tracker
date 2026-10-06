@@ -34,6 +34,7 @@
         </div>
       </div>
     </section>
+
     <section class="inversiones">
       <h2>Mis inversiones</h2>
       <div class="tabla-inversiones">
@@ -53,8 +54,24 @@
         <div class="celda total">$20,000</div>
         <div class="celda rendimiento">+10.5%</div>
       </div>
-      <button class="agregar">Agregar inversión +</button>
+      <button id="botonAgregarNuevaInversion">Agregar inversión +</button>
+    </section>
+
+    <section id="grafica">
+      <img src="graficapastel.jpg" alt="grafica">
+    </section>
+
+    <section id="nuevaInversion">
+      <h2>Nueva Inversión</h2>
+      <label class="encabezado">Plataforma</label>
+      <input class="input" id="plataforma" type="text" required>
+      <label class="encabezado">Cantidad</label>
+      <input class="input" id="cantidad" type="number" required>
+      <label class="encabezado">Rendimiento</label>
+      <input class="input" id="rendimiento" type="number" required>
+      <button id = "botonGuardarInversion">Guardar</button>
     </section>
   </main>
+  <script src="js/script.js"></script>
 </body>
 </html>
