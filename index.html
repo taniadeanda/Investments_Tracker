@@ -63,6 +63,7 @@
       <img src="graficapastel.jpg" alt="grafica">
     </section>
 
+    <div id="overlay"></div>
     <section id="nuevaInversion">
       <h2>Nueva Inversión</h2>
       <label class="encabezado">Plataforma</label>
@@ -71,7 +72,10 @@
       <input class="input" id="cantidad" type="number" required>
       <label class="encabezado">Rendimiento</label>
       <input class="input" id="rendimiento" type="number" required>
-      <button id = "botonGuardarInversion">Guardar</button>
+      <div id="botonesAgregarInversion">
+        <button id = "botonCancelarInversion">Cancelar</button>
+        <button id = "botonGuardarInversion">Guardar</button>
+      </div>
     </section>
   </main>
   <script src="js/script.js"></script>

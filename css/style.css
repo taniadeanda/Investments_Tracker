@@ -120,6 +120,7 @@ body {
   text-align: center;
   font-size: 1rem;
   color: #222;
+  font-family: inherit;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -145,15 +146,15 @@ body {
   color: #16a34a;
 }
 
-#botonGuardarInversion {
-  display: block;
-  margin: 24px 0 0 auto;   /* top | derecha | abajo | izquierda = auto */
+#botonGuardarInversion, #botonCancelarInversion {
+  flex: 1;                /* cada botón ocupa 50% del ancho */
   background-color: #111;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 14px 18px;
   border-radius: 6px;
   cursor: pointer;
+  text-align: center;
   font-size: 0.95rem;
   transition: background-color 0.15s ease;
 }
@@ -171,13 +172,21 @@ body {
   transition: background-color 0.15s ease;
 }
 
-#botonAgregarNuevaInversion:hover,.boton:hover, #botonGuardarInversion:hover {
+#botonesAgregarInversion {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 60px;
+}
+
+#botonAgregarNuevaInversion:hover,.boton:hover, #botonGuardarInversion:hover, #botonCancelarInversion:hover {
   background-color: #333;
 }
 
 input {
   display: flex;
   margin-bottom: 10px;
+  width: 100%;
   margin-top: 5px;
   flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
 }
@@ -192,12 +201,35 @@ section {
   margin: 48px 0;    
   display: block;
   background-color: white;
-  border-radius: 8px;   
+  border-radius: 10px;   
 }
 
 #grafica img {
   width: 100%;
   height: auto;        
   display: block;
-  border-radius: 8px;   
+  border-radius: 10px;   
 }
+
+#nuevaInversion {
+    position: fixed;
+    top: 40%; /*a la mitad de la pantalla horizontal y vertical*/
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+}
+
