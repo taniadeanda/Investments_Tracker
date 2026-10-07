@@ -145,7 +145,7 @@ body {
   color: #16a34a;
 }
 
-#botonAgregarNuevaInversion, #botonGuardarInversion {
+#botonGuardarInversion {
   display: block;
   margin: 24px 0 0 auto;   /* top | derecha | abajo | izquierda = auto */
   background-color: #111;
@@ -158,7 +158,20 @@ body {
   transition: background-color 0.15s ease;
 }
 
-#botonAgregarNuevaInversion, #botonGuardarInversion:hover {
+.boton {
+  padding: 14px 18px;
+  text-align: center;
+  font: inherit;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+#botonAgregarNuevaInversion:hover,.boton:hover, #botonGuardarInversion:hover {
   background-color: #333;
 }
 
