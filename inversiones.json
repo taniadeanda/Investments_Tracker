@@ -1,0 +1,17 @@
+[ 
+    {
+        "plataforma": "YoTePresto",
+        "cantidad": 20000,
+        "rendimiento": 10.5
+    },
+    {
+        "plataforma": "Nu",
+        "cantidad": 15000,
+        "rendimiento": 9.5
+    },
+    {
+        "plataforma": "Mercado Pago",
+        "cantidad": 8000,
+        "rendimiento": 8
+    } 
+]

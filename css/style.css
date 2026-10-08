@@ -10,7 +10,6 @@ body {
   color: #222;
 }
 
-/* ===== MENÚ ===== */
 .menu {
   background-color: #ffffff;
   padding: 25px 80px;
@@ -37,7 +36,7 @@ body {
   background-color: #f0f0f0;
   padding: 8px 16px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 0.95rem;
   transition: background-color 0.15s ease;
 }
@@ -46,7 +45,6 @@ body {
   background-color: #e0e0e0;
 }
 
-/* ===== CONTENIDO GENERAL ===== */
 .contenido {
   padding: 0px;
   max-width: 1100px;
@@ -68,7 +66,6 @@ body {
   margin: 0;
 }
 
-/* ===== RESUMEN (tarjetas) ===== */
 .cards {
   display: flex;
   gap: 16px;              /* separación entre tarjetas */
@@ -77,7 +74,7 @@ body {
 }
 
 .card {
-  background-color: #ffffff;   /* antes era #F0F1F2, mismo color que el body, no se veía */
+  background-color: #ffffff;  
   border-radius: 8px;
   padding: 16px 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -94,7 +91,6 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== TABLA DE INVERSIONES ===== */
 .tabla-inversiones {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -116,7 +112,7 @@ body {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
-  padding: 14px 18px;
+  padding: 10px 18px;
   text-align: center;
   font-size: 1rem;
   color: #222;
@@ -151,8 +147,8 @@ body {
   background-color: #111;
   color: #fff;
   border: none;
-  padding: 14px 18px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 10px;
   cursor: pointer;
   text-align: center;
   font-size: 0.95rem;
@@ -160,7 +156,7 @@ body {
 }
 
 .boton {
-  padding: 14px 18px;
+  padding: 10px 18px;
   text-align: center;
   font: inherit;
   background-color: #111;
@@ -177,6 +173,7 @@ body {
   gap: 12px;
   width: 100%;
   margin-top: 60px;
+  border-radius: 10px;
 }
 
 #botonAgregarNuevaInversion:hover,.boton:hover, #botonGuardarInversion:hover, #botonCancelarInversion:hover {
@@ -192,8 +189,8 @@ input {
 }
 
 section {
-    margin-bottom: 48px;  
-    margin-top: 48px;
+  margin-bottom: 48px;  
+  margin-top: 48px;
 }
 
 #grafica {

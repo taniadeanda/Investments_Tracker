@@ -12,43 +12,29 @@ bottonAgregar.addEventListener("click", function() {
 nuevaInversion.style.display = "none"; //hace que se oculte la sección de nuevainversion
 overlay.style.display = "none";
 
-const bottonGuardarInversion = document.querySelector("#botonGuardarInversion");
-bottonGuardarInversion.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
-    const inputPlataforma = document.querySelector("#plataforma").value; //obtener valores
-    const inputCantidad = document.querySelector("#cantidad").value;
-    const inputRendimiento = document.querySelector("#rendimiento").value;
-    const cantidadN = parseFloat(inputCantidad); //convertir a numero float
-    const rendimientoN = parseFloat(inputRendimiento);
-    if (cantidadN <= 0 || rendimientoN <= 0 || !inputPlataforma) { //validación de todos los campos llenos
+//const bottonGuardarInversion = document.querySelector("#botonGuardarInversion");
+$("#botonGuardarInversion").on("click", function () { //con jquery
+    const plataforma = $("#plataforma").val().trim();
+    const cantidad = parseFloat($("#cantidad").val());
+    const rendimiento = parseFloat($("#rendimiento").val());
+    if (!plataforma || isNaN(cantidad) || isNaN(rendimiento) || cantidad <= 0) {
         alert("Por favor completa todos los campos correctamente.");
-        return; //se sale de la funcion
-    } //else
-    const celdaNombre = document.createElement("div");
-    const celdaTotal = document.createElement("div"); //se crean div para agregar en cada uno sus datos 
-    const celdaRendimiento = document.createElement("div");
-
-    celdaNombre.className = "celda nombre";
-    celdaTotal.className = "celda total";
-    celdaRendimiento.className = "celda rendimiento";
-
-    celdaNombre.textContent = inputPlataforma;
-    celdaTotal.textContent = "$" + cantidadN;
-    celdaRendimiento.textContent = "+" + rendimientoN + "%";
-
-    const listaInversiones = document.querySelector(".tabla-inversiones");
-
-    listaInversiones.appendChild(celdaNombre);
-    listaInversiones.appendChild(celdaTotal);
-    listaInversiones.appendChild(celdaRendimiento);
-
-    nuevaInversion.style.display = "none";
-    overlay.style.display = "none";
-
-    document.querySelector("#plataforma").value = "";
-    document.querySelector("#cantidad").value = "";
-    document.querySelector("#rendimiento").value = "";
+        return;
+    }
+    agregarFila(plataforma, cantidad, rendimiento); //los recibe del formulario
+    $("#nuevaInversion, #overlay").hide();
+    $("#plataforma, #cantidad, #rendimiento").val("");
     alert("Datos guardados. Nueva inversión creada!");
 });
+
+function agregarFila(plataforma, cantidad, rendimiento) { 
+    const signo = rendimiento > 0 ? "+" : "";
+    $("#botonEliminarInversion").before(
+        $("<div>").addClass("celda nombre").text(plataforma),
+        $("<div>").addClass("celda total").text("$" + cantidad),
+        $("<div>").addClass("celda rendimiento").text(signo + rendimiento + "%")
+    );
+}
 
 const botonCancelarGuardar = document.querySelector("#botonCancelarInversion");
 botonCancelarGuardar.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
@@ -59,4 +45,19 @@ botonCancelarGuardar.addEventListener("click", function () { //se guardan datos 
 overlay.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
     nuevaInversion.style.display = "none";
     overlay.style.display = "none"; //se oculta
+});
+
+
+$.ajax({ //traer/pedir datos del servidor sin recargar la pagina
+    url: "inversiones.json",
+    method: "GET",
+    dataType: "json",
+    success: function (datos) { 
+        $.each(datos, function (indice, inversion) { //si la peticion es exitosa entonces
+            agregarFila(inversion.plataforma, inversion.cantidad, inversion.rendimiento); //toma los datos de json y los muestra/trae a la pagina
+        });
+    },
+    error: function () {
+        console.error("No se pudo cargar inversiones.json");
+    }
 });
