@@ -9,8 +9,8 @@
   <header class="menu">
     <h1>Investment Tracker</h1>
     <nav>
-      <button>Ingresar</button>
-      <button>Registrarte</button>
+      <button id="botonIngresar">Ingresar</button>
+      <button id="botonRegistrarte">Registrarte</button>
     </nav>
   </header>
 
@@ -49,7 +49,7 @@
     </section>
 
     <div id="overlay"></div>
-    <section id="nuevaInversion">
+    <section class="ventana" id="nuevaInversion">
       <h2>Nueva Inversión</h2>
       <label class="encabezado">Plataforma</label>
       <input class="input" id="plataforma" type="text" required>
@@ -58,10 +58,75 @@
       <label class="encabezado">Rendimiento</label>
       <input class="input" id="rendimiento" type="number" required>
       <div id="botonesAgregarInversion">
-        <button id = "botonCancelarInversion">Cancelar</button>
-        <button id = "botonGuardarInversion">Guardar</button>
+        <button class="botones" id = "botonCancelarInversion">Cancelar</button>
+        <button class="botones" id = "botonGuardarInversion">Guardar</button>
       </div>
     </section>
+
+    <div id="overlay"></div>
+    <section class="ventana" id= "ventanaIngresar">
+      <h2>Iniciar sesión</h2>
+      <label class="encabezado">Ingresa tu correo electrónico</label>
+      <input class="input" id="correoInicioSesion" type="text" required>
+      <label class="encabezado">Contraseña</label>
+      <input class="input" id="contraseñaInicioSesion" type="password" required>
+        <p class="linksVentanas" id ="LinkOlvideContraseña">Olvide mi contraseña</p>
+        <button class="boton" id="botonIniciarSesion">Iniciar sesión</button>
+    </section>
+
+    <div id="overlay"></div>
+    <section class="ventana" id="ventanaRecuperarCuenta">
+      <h2>Recuperar cuenta</h2>
+      <label class="encabezado">Ingresa el correo electrónico con el que registraste tu cuenta</label>
+      <input class="input" id="correoRecuperarCuenta" type="text" required>
+      <button class="boton" id="botonRecuperarCuenta">Enviar código</button>
+    </section>
+
+    <div id="overlay"></div>
+    <section class="ventana" id="ventanaRegistrar">
+      <h2>Regístrate</h2>
+      <label class="encabezado">Ingresa tu correo electrónico</label>
+      <input class="input" id="correoRegistrar" type="text" required>
+      <label class="encabezado">Contraseña</label>
+      <input class="input" id="contraseñaRegistrar" type="password" required>
+      <label class="encabezado">Confirma tu contraseña</label>
+      <input class="input" id="contraseñaConfirmacion" type="password" required>
+      <div>
+      <label class="terminos-label">
+        <input type="checkbox" id="checkTerminos">
+        <a href="#" id="linkTerminosCondiciones" class="linksVentanas"> Acepto términos y condiciones</a>
+      </label>
+      <button id="botonRegistrarme" class="boton">Regístrate</button>
+      </div>
+    </section>
+
+    <div id="overlay"></div>
+    <div id="ventanaTerminosCondiciones">
+      <h2>Términos y Condiciones</h2>
+      <p><em>Última actualización: 8 de octubre de 2026</em></p><br>
+      <h3>1. Aceptación de los términos</h3>
+        <p>Al crear una cuenta en <strong>Investment Tracker</strong>, aceptas estos Términos y Condiciones. Si no estás de acuerdo, no debes utilizar nuestros servicios.</p><br>
+      <h3>2. Registro de cuenta</h3>
+        <p>Para usar ciertos servicios necesitas registrarte proporcionando información veraz y actualizada. Eres responsable de mantener la confidencialidad de tu contraseña y de todas las actividades realizadas desde tu cuenta.</p> <br>
+      <h3>3. Uso aceptable</h3>
+        <p>Te comprometes a:</p>
+        <ul>
+          <li>No usar el servicio con fines ilegales o no autorizados.</li>
+          <li>No intentar acceder a cuentas de otros usuarios sin permiso.</li>
+          <li>No publicar contenido ofensivo, discriminatorio o protegido por derechos de terceros sin autorización.</li>
+        </ul> 
+      <h3>4. Privacidad y datos personales</h3>
+        <p>Tu correo electrónico se utiliza únicamente para verificar tu cuenta y enviarte notificaciones relacionadas con el servicio. No compartimos tus datos con terceros salvo obligación legal.</a></p> <br>
+      <h3>5. Modificaciones</h3>
+        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios significativos serán comunicados por correo electrónico o mediante un aviso en el sitio.</p> <br>
+      <h3>6. Eliminación de la cuenta</h3>
+        <p>Puedes solicitar la eliminación de tu cuenta en cualquier momento escribiendo a <a href="mailto:taniadeanda9291@alumnos.udg.mx">taniadeanda9291@alumnos.udg.mx</a>. Al eliminarla, se borrarán tus datos salvo los que debamos conservar por ley.</p> <br>
+      <h3>7. Limitación de responsabilidad</h3>
+        <p>El servicio se ofrece "tal cual", sin garantías de disponibilidad ininterrumpida. No nos hacemos responsables de daños derivados del uso o la imposibilidad de uso del servicio.</p> <br>
+      <h3>8. Contacto</h3>
+        <p>Para dudas sobre estos términos, escríbenos a <a href="taniadeanda9291@alumnos.udg.mx">taniadeanda9291@alumnos.udg.mx</a>.</p> <br>
+    </div>
+
   </main>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- el orden importa-->
   <script src="js/script.js"></script>

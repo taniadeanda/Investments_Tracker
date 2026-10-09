@@ -142,7 +142,7 @@ body {
   color: #16a34a;
 }
 
-#botonGuardarInversion, #botonCancelarInversion {
+#botonGuardarInversion, #botonCancelarInversion, .botones {
   flex: 1;                /* cada botón ocupa 50% del ancho */
   background-color: #111;
   color: #fff;
@@ -162,13 +162,14 @@ body {
   background-color: #111;
   color: #fff;
   border: 1px solid transparent;
+  text-align: center;
   box-sizing: border-box;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
-#botonesAgregarInversion {
+#botonesAgregarInversion, #botonesIniciarSesion {
   display: flex;
   gap: 12px;
   width: 100%;
@@ -208,7 +209,7 @@ section {
   border-radius: 10px;   
 }
 
-#nuevaInversion {
+.ventana {
     position: fixed;
     top: 40%; /*a la mitad de la pantalla horizontal y vertical*/
     left: 50%;
@@ -217,6 +218,7 @@ section {
     padding: 30px;
     border-radius: 10px;
     width: 350px;
+    display: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -230,3 +232,44 @@ section {
     display: none;
 }
 
+.linksVentanas {
+  color: grey;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.terminos-label {
+    display: flex;
+    font-size: 14px;
+    align-items: center;        /* ✅ centrado VERTICAL (checkbox vs texto) */
+}
+
+#ventanaTerminosCondiciones {
+  max-height: 500px;      /* altura máxima del área de texto */
+  overflow-y: auto;       /* barra de scroll solo si el texto no cabe */
+  padding: 10px;
+  text-align: justify;
+  border: 1px solid #ccc;
+  display: none;
+  position: fixed;
+  top: 50%; /*a la mitad de la pantalla horizontal y vertical*/
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#botonIniciarSesion, #botonRegistrarme {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 15px;
+  text-align: center;
+  justify-content: center;
+  flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+}
