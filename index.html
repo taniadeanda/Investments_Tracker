@@ -14,24 +14,24 @@
     </nav>
   </header>
 
+  
   <!-- ya que inicie sesion, como va a mostrar LANDING page?-->
   <main class="contenido">
+    
     <section class="resumen">
       <h2>Resumen</h2>
-      <h3>Valor de mi portafolio</h3>
-      <p class="valor-portafolio">$2,342,009 MXN</p>
-      <div class="cards">
+        <div class="cards">
         <div class="card">
           <h3>Invertido</h3>
-          <p>$1,000</p>
+          <p id="totalInvertido">$0</p>
         </div>
         <div class="card">
           <h3>Rendimiento Promedio</h3>
-          <p>%17</p>
+          <p id="rendimientoPromedio">0%</p>
         </div>
         <div class="card">
           <h3>Ganancias Estimadas</h3>
-          <p>$1,170</p>
+          <p id="gananciasEstimadas">$0</p>
         </div>
       </div>
     </section>
@@ -45,12 +45,36 @@
       </div>
     </section>
 
-  <div class="ventana" id="ventanaEditarInversion">
-    <h2>Editar inversion</h2>
-    <label>Inversión a editar</label>
-    <label>Nombre</label>
-    <label>Cantidad</label>
-    <label>Rendimiento</label>
+  <div id="overlay"></div>
+<div class="ventana" id="ventanaEditarInversion">
+  <h2>Editar inversión</h2>
+  <label class="encabezado">Selecciona la inversión</label><br>
+  <select class="listaDesplegable" id="listaInversionesEditar">
+    <option value="" disabled selected>— Selecciona —</option>
+  </select><br>
+  <label class="encabezado">Plataforma</label>
+  <input class="input" id="plataformaEditar" type="text" required>
+  <label class="encabezado">Cantidad</label>
+  <input class="input input-moneda" id="cantidadEditar" type="text" inputmode="decimal" required>
+  <label class="encabezado">Rendimiento</label>
+  <input class="input" id="rendimientoEditar" type="number" step="any" required>
+  <div id="botonesEditarInversion">
+    <button class="botones" id="botonCancelarEditarInversion">Cancelar</button>
+    <button class="botones" id="botonEditarGuardarInversion">Guardar</button>
+  </div>
+</div>
+
+  <div id="overlay"></div>
+  <div class="ventana" id="ventanaEliminarInversion">
+    <h2>Eliminar inversión</h2>
+    <label class="encabezado">Nombre</label><br>
+    <select class="listaDesplegable" id="listaInversionesEliminar">
+      <option value="" disabled selected>— Selecciona —</option>
+    </select><br>
+    <div id="botonesEliminarInversion">
+      <button class="botones" id="botonCancelarEliminarInversion">Cancelar</button>
+      <button class="botones" id="botonEditarEliminarInversion">Eliminar</button>
+    </div>
   </div>
 
   <section id="grafica">
@@ -69,7 +93,7 @@
       <label class="encabezado">Plataforma</label>
       <input class="input" id="plataforma" type="text" required>
       <label class="encabezado">Cantidad</label>
-      <input class="input" id="cantidad" type="number" required>
+      <input class="input input-moneda" id="cantidad" type="text" inputmode="decimal" required>
       <label class="encabezado">Rendimiento</label>
       <input class="input" id="rendimiento" type="number" required>
       <div id="botonesAgregarInversion">
@@ -139,7 +163,7 @@
       <h3>7. Limitación de responsabilidad</h3>
         <p>El servicio se ofrece "tal cual", sin garantías de disponibilidad ininterrumpida. No nos hacemos responsables de daños derivados del uso o la imposibilidad de uso del servicio.</p> <br>
       <h3>8. Contacto</h3>
-        <p>Para dudas sobre estos términos, escríbenos a <a href="taniadeanda9291@alumnos.udg.mx">taniadeanda9291@alumnos.udg.mx</a>.</p> <br>
+        <p>Para dudas sobre estos términos, escríbenos a <a href="mailto:taniadeanda9291@alumnos.udg.mx">taniadeanda9291@alumnos.udg.mx</a>.</p> <br>
     </div>
 
   </main>

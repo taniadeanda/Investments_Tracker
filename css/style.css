@@ -169,7 +169,7 @@ body {
   transition: background-color 0.15s ease;
 }
 
-#botonesAgregarInversion, #botonesIniciarSesion {
+#botonesAgregarInversion, #botonesIniciarSesion, #botonesEditarInversion, #botonesEliminarInversion {
   display: flex;
   gap: 12px;
   width: 100%;
@@ -321,4 +321,19 @@ section {
 .monto-inversion {
     color: #777;
     font-size: 14px;
+}
+
+.listaDesplegable {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
 }

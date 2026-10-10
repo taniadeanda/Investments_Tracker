@@ -5,9 +5,11 @@ const overlay = document.querySelector("#overlay");
 const ventanaRegistrar = $("#ventanaRegistrar");
 const ventanaIngresar = $("#ventanaIngresar");
 const ventanaEditarInversion = $("#ventanaEditarInversion");
+const ventanaEliminarInversion = $("#ventanaEliminarInversion");
 let inversionesActuales = [];
 const botonEditarInversion = $("#botonEditarInversion");
 const botonEliminarInversion = $("#botonEliminarInversion");
+const botonEditarEliminarInversion = $("#botonEditarEliminarInversion");
 
 nuevaInversion.style.display = "none"; //hace que se oculte la sección de nuevainversion
 //overlay.style.display = "none";
@@ -28,6 +30,7 @@ const coloresPastel = [
 ];
 
 function actualizarGrafica(inversiones) {
+    actualizarResumen(inversiones);
     const plataformas = inversiones.map(
         inversion => inversion.plataforma
     );
@@ -114,13 +117,19 @@ function actualizarGrafica(inversiones) {
     });
 };
 
-/*botonEditarInversion.addEventListener("click", function() {
+botonEditarInversion.on("click", function() {
+    limpiarFormularioEditar();
+    listaDesplegableInversiones();
     ventanaEditarInversion.show();
+    overlay.style.display = "block";
 });
 
-botonEliminarInversion.addEventListener("click", function() {
-    //ventanaEliminarInversion.show();
-});*/
+botonEliminarInversion.on("click", function() {
+    limpiarFormularioEditar();
+    listaDesplegableInversiones();
+    ventanaEliminarInversion.show();
+    overlay.style.display = "block";
+});
 
 bottonAgregar.addEventListener("click", function() {
     //alert("Botton funcionando");
@@ -128,10 +137,78 @@ bottonAgregar.addEventListener("click", function() {
     overlay.style.display = "block";
 });
 
+botonEditarEliminarInversion.on("click", function () {
+    const select = document.getElementById("listaInversionesEliminar");
+    const indice = parseInt(select.value, 10);
+    if (isNaN(indice)) {
+        alert("Selecciona una inversión de la lista.");
+        return;
+    }
+    const eliminada = inversionesActuales[indice];
+    if (!confirm(`¿Seguro que quieres eliminar "${eliminada.plataforma}"?`)) {
+        return;
+    }
+    inversionesActuales.splice(indice, 1);   // quita del arreglo
+    renderizarTabla();                        // actualiza la tabla
+    actualizarGrafica(inversionesActuales);   // actualiza la gráfica
+    listaDesplegableInversiones();            // actualiza los selects
+    ventanaEliminarInversion.hide();
+    overlay.style.display = "none";
+    alert(`La inversión "${eliminada.plataforma}" se eliminó correctamente.`);
+});
+
+$("#listaInversionesEditar").on("change", function () {
+    const indice = parseInt(this.value, 10);
+    if (isNaN(indice)) return;
+    const inv = inversionesActuales[indice];
+    $("#plataformaEditar").val(inv.plataforma);
+    $("#cantidadEditar").val(
+        Number(inv.cantidad).toLocaleString("es-MX", { maximumFractionDigits: 2 })
+    );
+    $("#rendimientoEditar").val(inv.rendimiento);
+});
+
+$("#botonEditarGuardarInversion").on("click", function () {
+    const indice = parseInt($("#listaInversionesEditar").val(), 10);
+    if (isNaN(indice)) {
+        alert("Selecciona una inversión de la lista.");
+        return;
+    }
+    const plataforma = $("#plataformaEditar").val().trim();
+    const cantidad = quitarFormato($("#cantidadEditar").val());    const rendimiento = parseFloat($("#rendimientoEditar").val());
+    if (!plataforma || isNaN(cantidad) || isNaN(rendimiento) || cantidad <= 0) {
+        alert("Por favor completa todos los campos correctamente.");
+        return;
+    }
+    inversionesActuales[indice] = {
+        plataforma: plataforma,
+        cantidad: cantidad,
+        rendimiento: rendimiento
+    };
+    renderizarTabla();                       // la función del paso anterior
+    actualizarGrafica(inversionesActuales);
+    listaDesplegableInversiones();
+    limpiarFormularioEditar();
+    ventanaEditarInversion.hide();
+    overlay.style.display = "none";
+    alert("¡Inversión actualizada!");
+});
+
+function limpiarFormularioEditar() {
+    $("#plataformaEditar, #cantidadEditar, #rendimientoEditar").val("");
+}
+
+function renderizarTabla() { //confomre al arreglo
+    $(".fila-inversion").remove();
+    inversionesActuales.forEach(function (inv) {
+        agregarFila(inv.plataforma, inv.cantidad, inv.rendimiento);
+    });
+}
+
 //const bottonGuardarInversion = document.querySelector("#botonGuardarInversion");
 $("#botonGuardarInversion").on("click", function () { //con jquery
     const plataforma = $("#plataforma").val().trim();
-    const cantidad = parseFloat($("#cantidad").val());
+    const cantidad = quitarFormato($("#cantidad").val());
     const rendimiento = parseFloat($("#rendimiento").val());
     if (!plataforma || isNaN(cantidad) || isNaN(rendimiento) || cantidad <= 0) {
         alert("Por favor completa todos los campos correctamente.");
@@ -145,19 +222,20 @@ $("#botonGuardarInversion").on("click", function () { //con jquery
     inversionesActuales.push(nueva); 
     agregarFila(plataforma, cantidad, rendimiento);
     actualizarGrafica(inversionesActuales);
+    listaDesplegableInversiones();
     $("#nuevaInversion, #overlay").hide();
     $("#plataforma, #cantidad, #rendimiento").val("");
     alert("¡Nueva inversión creada!");
 });
 
-function agregarFila(plataforma, cantidad, rendimiento) { 
+function agregarFila(plataforma, cantidad, rendimiento) {
     const signo = rendimiento > 0 ? "+" : "";
     $("#botonEliminarInversion").before(
-        $("<div>").addClass("celda nombre").text(plataforma),
-        $("<div>").addClass("celda total").text("$" + cantidad),
-        $("<div>").addClass("celda rendimiento").text(signo + rendimiento + "%")
-    );
-};
+        $("<div>").addClass("celda nombre fila-inversion").text(plataforma),
+        $("<div>").addClass("celda total fila-inversion")
+            .text("$" + Number(cantidad).toLocaleString("es-MX", { maximumFractionDigits: 2 })),        $("<div>").addClass("celda rendimiento fila-inversion").text(signo + rendimiento + "%")
+        );
+}
 
 const botonCancelarGuardar = document.querySelector("#botonCancelarInversion");
 botonCancelarGuardar.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
@@ -171,7 +249,9 @@ overlay.addEventListener("click", function () { //se guardan datos ingresados po
     $("#ventanaRegistrar").hide();
     $("#ventanaIngresar").hide();
     $("#ventanaRecuperarCuenta").hide();
+    ventanaEliminarInversion.hide();
     $("#ventanaTerminosCondiciones").hide();
+    ventanaEditarInversion.hide();
 });
 
 $("#botonRegistrarte").on("click", function () { //con jquery
@@ -243,7 +323,17 @@ $("#botonIniciarSesion").on("click", function () { //con jquery
     $("#correoInicioSesion").val(""); //que se borren campos
     $("#contraseñaInicioSesion").val("");
     $("#ventanaIngresar").hide(); //que se muestre el forumalio de registar
-    overlay.style.display = "none"; //muestra fondo gris
+    overlay.style.display = "none"; // fondo gris
+});
+
+$("#botonCancelarEditarInversion").on("click", function () { //con jquery
+    ventanaEditarInversion.hide(); //que se muestre el forumalio de registar
+    overlay.style.display = "none"; //oculta fondo gris
+});
+
+$("#botonCancelarEliminarInversion").on("click", function () { //con jquery
+    ventanaEliminarInversion.hide(); //que se muestre el forumalio de registar
+    overlay.style.display = "none"; //oculda fondo gris
 });
 
 $("#linkTerminosCondiciones").on("click", function (e) {
@@ -280,6 +370,79 @@ $("#botonRecuperarCuenta").on("click", function () { //con jquery
     overlay.style.display = "none"; //muestra fondo gris
 });
 
+function listaDesplegableInversiones () { //solo aparecen las que existen
+  ["listaInversionesEditar", "listaInversionesEliminar"].forEach((id) => {
+    const select = document.getElementById(id);
+    select.innerHTML = '<option value="" disabled selected>— Selecciona —</option>';
+    inversionesActuales.forEach((inversion, indice) => {
+      const option = document.createElement("option");
+      option.value = indice;
+      option.textContent =
+        `${inversion.plataforma} — $${Number(inversion.cantidad).toLocaleString("es-MX")} MXN`;
+      select.appendChild(option);
+    });
+  });
+}
+
+
+// Convierte "1234567.5" en "1,234,567.5" (máximo 2 decimales)
+function formatearNumero(valor) {
+    const limpio = valor.replace(/[^\d.]/g, "");   // solo dígitos y punto
+    const partes = limpio.split(".");
+    let entero = partes[0].replace(/^0+(?=\d)/, ""); // quita ceros a la izquierda
+    entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (partes.length > 1) {
+        return entero + "." + partes.slice(1).join("").slice(0, 2);
+    }
+    return entero;
+}
+
+// Convierte "1,234,567.5" en el número 1234567.5
+function quitarFormato(valor) {
+    return parseFloat(String(valor).replace(/,/g, ""));
+}
+
+// Formatea mientras el usuario escribe, sin mover el cursor
+$(document).on("input", ".input-moneda", function () {
+    const textoAnterior = this.value;
+    const posicion = this.selectionStart;
+    const digitosAntes = textoAnterior.slice(0, posicion).replace(/,/g, "").length;
+    this.value = formatearNumero(textoAnterior);
+    // Reponer el cursor en el mismo dígito
+    let nuevaPos = 0;
+    let contados = 0;
+    while (nuevaPos < this.value.length && contados < digitosAntes) {
+        if (this.value[nuevaPos] !== ",") contados++;
+        nuevaPos++;
+    }
+    this.setSelectionRange(nuevaPos, nuevaPos);
+});
+
+function formatearMoneda(numero) {
+    return "$" + numero.toLocaleString("es-MX", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function actualizarResumen(inversiones) {
+    const totalInvertido = inversiones.reduce(
+        (suma, inv) => suma + Number(inv.cantidad), 0
+    );
+    // Ganancia de cada inversión = cantidad * (rendimiento / 100)
+    const ganancias = inversiones.reduce(
+        (suma, inv) => suma + Number(inv.cantidad) * Number(inv.rendimiento) / 100, 0
+    );
+    const rendimientoPromedio = inversiones.length > 0
+        ? inversiones.reduce((s, inv) => s + Number(inv.rendimiento), 0) / inversiones.length
+        : 0;
+    $("#totalInvertido").text(formatearMoneda(totalInvertido));
+    $("#rendimientoPromedio").text(rendimientoPromedio.toFixed(2) + "%");
+    $("#gananciasEstimadas").text(formatearMoneda(ganancias));
+    $("#valorPortafolio").text(formatearMoneda(totalInvertido + ganancias) + " MXN");
+}
+
+
 
 
 
@@ -302,6 +465,7 @@ $.ajax({ //traer/pedir datos del servidor sin recargar la pagina
             inversion.rendimiento
         );
     });
+    listaDesplegableInversiones();
     actualizarGrafica(inversionesActuales);
     },
     error: function () {
