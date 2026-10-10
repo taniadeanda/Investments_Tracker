@@ -4,12 +4,123 @@ const nuevaInversion = document.querySelector("#nuevaInversion"); //#accede con 
 const overlay = document.querySelector("#overlay");
 const ventanaRegistrar = $("#ventanaRegistrar");
 const ventanaIngresar = $("#ventanaIngresar");
+const ventanaEditarInversion = $("#ventanaEditarInversion");
+let inversionesActuales = [];
+const botonEditarInversion = $("#botonEditarInversion");
+const botonEliminarInversion = $("#botonEliminarInversion");
 
 nuevaInversion.style.display = "none"; //hace que se oculte la sección de nuevainversion
 //overlay.style.display = "none";
 //$("#ventanaRegistrar").hide(); //hace que se oculte la ventanaregistrar con jquery
 //$("#ventanaIngresar").hide(); //o ventanaIngresar.hide(); pq ya esta declarado
 //$("#ventanaTerminosCondiciones").hide();
+let graficaInversiones = null;
+
+const coloresPastel = [
+    "#CDB4DB", // Lavanda
+    "#FFC8DD", // Rosa
+    "#BDE0FE", // Azul cielo
+    "#CDEAC0", // Verde menta
+    "#FFE5A5", // Amarillo suave
+    "#FFD6A5", // Durazno
+    "#A8DADC", // Turquesa pastel
+    "#E7C6FF"  // Lila
+];
+
+function actualizarGrafica(inversiones) {
+    const plataformas = inversiones.map(
+        inversion => inversion.plataforma
+    );
+    const cantidades = inversiones.map(
+        inversion => Number(inversion.cantidad)
+    );
+    const colores = inversiones.map(
+        (_, indice) => coloresPastel[indice % coloresPastel.length]
+    );
+    const total = cantidades.reduce(
+        (suma, cantidad) => suma + cantidad,
+        0
+    );
+    // Crear o actualizar la gráfica
+    const contexto = document
+        .querySelector("#graficaInversiones")
+        .getContext("2d");
+    if (graficaInversiones) {
+        graficaInversiones.data.labels = plataformas;
+        graficaInversiones.data.datasets[0].data = cantidades;
+        graficaInversiones.data.datasets[0].backgroundColor = colores;
+        graficaInversiones.update();
+    } else {
+        graficaInversiones = new Chart(contexto, {
+            type: "pie",
+            data: {
+                labels: plataformas,
+                datasets: [{
+                    data: cantidades,
+                    backgroundColor: colores,
+                    borderColor: "#FFFFFF",
+                    borderWidth: 3,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(contexto) {
+                                const cantidad = contexto.raw;
+                                const porcentaje = total > 0
+                                    ? (cantidad / total * 100).toFixed(1)
+                                    : "0.0";
+                                return ` $${cantidad.toLocaleString("es-MX")} MXN (${porcentaje}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Crear las etiquetas de colores a un lado
+    const leyenda = document.querySelector("#leyendaInversiones");
+    leyenda.innerHTML = "";
+    inversiones.forEach((inversion, indice) => {
+        const cantidad = Number(inversion.cantidad);
+        const porcentaje = total > 0
+            ? (cantidad / total * 100).toFixed(1)
+            : "0.0";
+        const etiqueta = document.createElement("div");
+        etiqueta.className = "etiqueta-inversion";
+        const color = document.createElement("span");
+        color.className = "color-etiqueta";
+        color.style.backgroundColor = colores[indice];
+        const detalle = document.createElement("div");
+        detalle.className = "detalle-inversion";
+        const nombre = document.createElement("span");
+        nombre.className = "nombre-plataforma";
+        nombre.textContent = inversion.plataforma;
+        const monto = document.createElement("span");
+        monto.className = "monto-inversion";
+        monto.textContent =
+            `$${cantidad.toLocaleString("es-MX")} MXN · ${porcentaje}%`;
+        detalle.append(nombre, monto);
+        etiqueta.append(color, detalle);
+        leyenda.appendChild(etiqueta);
+    });
+};
+
+/*botonEditarInversion.addEventListener("click", function() {
+    ventanaEditarInversion.show();
+});
+
+botonEliminarInversion.addEventListener("click", function() {
+    //ventanaEliminarInversion.show();
+});*/
 
 bottonAgregar.addEventListener("click", function() {
     //alert("Botton funcionando");
@@ -26,10 +137,17 @@ $("#botonGuardarInversion").on("click", function () { //con jquery
         alert("Por favor completa todos los campos correctamente.");
         return;
     }
-    agregarFila(plataforma, cantidad, rendimiento); //los recibe del formulario
+    const nueva = {
+        plataforma: plataforma,
+        cantidad: cantidad,
+        rendimiento: rendimiento
+    };
+    inversionesActuales.push(nueva); 
+    agregarFila(plataforma, cantidad, rendimiento);
+    actualizarGrafica(inversionesActuales);
     $("#nuevaInversion, #overlay").hide();
     $("#plataforma, #cantidad, #rendimiento").val("");
-    alert("Datos guardados. Nueva inversión creada!");
+    alert("¡Nueva inversión creada!");
 });
 
 function agregarFila(plataforma, cantidad, rendimiento) { 
@@ -39,7 +157,7 @@ function agregarFila(plataforma, cantidad, rendimiento) {
         $("<div>").addClass("celda total").text("$" + cantidad),
         $("<div>").addClass("celda rendimiento").text(signo + rendimiento + "%")
     );
-}
+};
 
 const botonCancelarGuardar = document.querySelector("#botonCancelarInversion");
 botonCancelarGuardar.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
@@ -52,6 +170,8 @@ overlay.addEventListener("click", function () { //se guardan datos ingresados po
     overlay.style.display = "none"; //se ocultan todas las ventanas si se presiona el fondo
     $("#ventanaRegistrar").hide();
     $("#ventanaIngresar").hide();
+    $("#ventanaRecuperarCuenta").hide();
+    $("#ventanaTerminosCondiciones").hide();
 });
 
 $("#botonRegistrarte").on("click", function () { //con jquery
@@ -136,6 +256,7 @@ $("#linkTerminosCondiciones").on("click", function (e) {
 $("#LinkOlvideContraseña").on("click", function (e) {
     e.preventDefault();  // evita que el # recargue la página
     $("#ventanaRecuperarCuenta").show();
+    $("#ventanaIngresar").hide();
     overlay.style.display = "block"; //muestra fondo gris
 });
 
@@ -153,7 +274,7 @@ $("#botonRecuperarCuenta").on("click", function () { //con jquery
     //if hay un correo en esa base de datos registrado con eso entonces mandale un link para reestablecer contraseña
         //return;
     //}
-    //alert("Se ha enviado un correo con enlace de restablecimiento a tu correo.");
+    alert("Se ha enviado un correo con enlace de restablecimiento a tu correo.");
     $("#correoRecuperarCuenta").val(""); //que se borren campos
     $("#ventanaRecuperarCuenta").hide(); //que se muestre el forumalio de registar
     overlay.style.display = "none"; //muestra fondo gris
@@ -172,10 +293,16 @@ $.ajax({ //traer/pedir datos del servidor sin recargar la pagina
     url: "inversiones.json",
     method: "GET",
     dataType: "json",
-    success: function (datos) { 
-        $.each(datos, function (indice, inversion) { //si la peticion es exitosa entonces
-            agregarFila(inversion.plataforma, inversion.cantidad, inversion.rendimiento); //toma los datos de json y los muestra/trae a la pagina
-        });
+    success: function(datos) {
+        inversionesActuales = datos;
+        $.each(inversionesActuales, function(indice, inversion) {
+        agregarFila(
+            inversion.plataforma,
+            inversion.cantidad,
+            inversion.rendimiento
+        );
+    });
+    actualizarGrafica(inversionesActuales);
     },
     error: function () {
         console.error("No se pudo cargar inversiones.json");

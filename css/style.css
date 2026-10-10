@@ -264,7 +264,7 @@ section {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-#botonIniciarSesion, #botonRegistrarme {
+#botonIniciarSesion, #botonRegistrarme, #botonRecuperarCuenta {
   display: flex;
   margin-bottom: 10px;
   width: 100%;
@@ -272,4 +272,53 @@ section {
   text-align: center;
   justify-content: center;
   flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+}
+
+.contenedor-grafica {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.pastel {
+    width: 280px;
+    height: 280px;
+}
+
+#leyendaInversiones {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 190px;
+}
+
+.etiqueta-inversion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-etiqueta {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.detalle-inversion {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nombre-plataforma {
+    font-weight: 600;
+}
+
+.monto-inversion {
+    color: #777;
+    font-size: 14px;
 }

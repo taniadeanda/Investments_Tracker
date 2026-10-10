@@ -14,6 +14,7 @@
     </nav>
   </header>
 
+  <!-- ya que inicie sesion, como va a mostrar LANDING page?-->
   <main class="contenido">
     <section class="resumen">
       <h2>Resumen</h2>
@@ -44,9 +45,23 @@
       </div>
     </section>
 
-    <section id="grafica">
-      <img src="graficapastel.jpg" alt="grafica">
-    </section>
+  <div class="ventana" id="ventanaEditarInversion">
+    <h2>Editar inversion</h2>
+    <label>Inversión a editar</label>
+    <label>Nombre</label>
+    <label>Cantidad</label>
+    <label>Rendimiento</label>
+  </div>
+
+  <section id="grafica">
+  <h2></h2>
+    <div class="contenedor-grafica">
+      <div class="pastel">
+        <canvas id="graficaInversiones"></canvas>
+      </div>
+      <div id="leyendaInversiones"></div>
+    </div>
+  </section>
 
     <div id="overlay"></div>
     <section class="ventana" id="nuevaInversion">
@@ -128,6 +143,7 @@
     </div>
 
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- el orden importa-->
   <script src="js/script.js"></script>
 </body>
