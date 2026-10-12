@@ -24,3 +24,5 @@ try {
     http_response_code(500);
     exit("No se pudo conectar con la base de datos.");
 }
+
+?>

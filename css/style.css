@@ -56,6 +56,27 @@ body {
   font-size: 1.5rem;
 }
 
+#TituloLandingP {
+  font-size: 50px;
+  text-align: left;
+  font-weight: 600;
+  margin-right: 60px;
+  width: 40%;
+  max-width: 40%;
+}
+
+#landingP {
+  display: flex;
+  height: 500px; 
+  align-items: center;      /* centra verticalmente */
+}
+
+#fotoLanding {
+  width: 60%;
+  max-width: 60%;           /* evita que se desborde */
+  margin-left: -90px;
+}
+
 .contenido h3 {
   margin: 0 0 4px 0;
   font-size: 1rem;
@@ -222,7 +243,7 @@ section {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-#overlay {
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -336,4 +357,79 @@ section {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   width: 100%;
+}
+
+/* Ajusta estos valores página */
+:root {
+  --color-texto: #1f2937;
+  --color-texto-suave: #6b7280;
+  --color-acento: #2563eb;
+  --color-borde: #e5e7eb;
+}
+
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--color-borde);
+  padding: 40px 60px 20px;
+  font-family: inherit; /* hereda la tipografía de tu página */
+  color: var(--color-texto);
+}
+
+/* Secciones alineadas a la derecha */
+.footer-grid {
+  display: flex;
+  justify-content: flex-end; /* manda las columnas al lado derecho */
+  gap: 80px;
+  margin-bottom: 30px;
+}
+
+.footer-grid > div {
+  text-align: left; /* título y lista alineados entre sí */
+}
+
+.footer h4 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-texto);
+}
+
+.footer ul {
+  list-style: none; /* quita las viñetas */
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  margin-bottom: 8px;
+}
+
+.footer a {
+  color: var(--color-texto-suave);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: var(--color-acento);
+}
+
+.copyright {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+}
+
+/* En celular: columnas apiladas */
+@media (max-width: 600px) {
+  .footer {
+    padding: 30px 20px 20px;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    gap: 24px;
+  }
 }
