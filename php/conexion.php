@@ -1,19 +1,19 @@
 
 <?php
-
+#conecta a la BD
 $host = "localhost";
-$base_datos = "InvestmentTracker";
+$base_datos = "investment_tracker";
 $usuario = "root";
-$contrasena = ""; #aqui que?
+$contrasena = ""; 
 
 try {
-    $conexion = new PDO(
+    $pdo = new PDO(
         "mysql:host=$host;dbname=$base_datos;charset=utf8mb4",
         $usuario,
         $contrasena
     );
 
-    $conexion->setAttribute(
+    $pdo->setAttribute(
         PDO::ATTR_ERRMODE,
         PDO::ERRMODE_EXCEPTION
     );
@@ -22,7 +22,8 @@ try {
     error_log($e->getMessage());
 
     http_response_code(500);
-    exit("No se pudo conectar con la base de datos.");
+    echo json_encode(["ok" => false, "mensaje" => "No se pudo conectar con la base de datos."]);
+    exit;
 }
 
 ?>

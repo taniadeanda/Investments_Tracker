@@ -3,6 +3,20 @@ const ventanaIngresar = $("#ventanaIngresar");
 const overlay = document.querySelector(".overlay");
 const ventanaTerminosyCondiciones = $("#ventanaTerminosCondiciones");
 
+function mensajeErrorAjax(xhr, textStatus) {
+    if (xhr.responseJSON && xhr.responseJSON.mensaje) {
+        return xhr.responseJSON.mensaje;
+    }
+    if (textStatus === "parsererror") {
+        console.error("El servidor devolvió una respuesta que no es JSON válido:", xhr.responseText);
+        return "El servidor respondió, pero envió una respuesta inválida. Actualiza la página e inténtalo de nuevo desde http://localhost/Investment_Tracker/.";
+    }
+    if (xhr.status) {
+        return `El servidor respondió con un error (${xhr.status}).`;
+    }
+    return "No se pudo conectar con el servidor.";
+}
+
 overlay.addEventListener("click", function () { //se guardan datos ingresados por el usuario y después se muestran
     overlay.style.display = "none"; //se ocultan todas las ventanas si se presiona el fondo
     $("#ventanaRegistrar").hide();
@@ -18,8 +32,9 @@ $("#botonRegistrarte").on("click", function () { //con jquery
     overlay.style.display = "block";
 });
 
-$("#botonRegistrarme").on("click", function () { //con jquery
+$("#botonRegistrarme").on("click", function () {
     const correo = $("#correoRegistrar").val().trim();
+    const nombre = $("#nombreRegistrar").val().trim();
     const contraseña = $("#contraseñaRegistrar").val().trim();
     const contraseñaConfirmacion = $("#contraseñaConfirmacion").val().trim();
     const aceptoTerminos = $("#checkTerminos").is(":checked");
@@ -28,12 +43,16 @@ $("#botonRegistrarme").on("click", function () { //con jquery
         alert("El correo es obligatorio.");
         return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) { //regex
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
         alert("El correo no tiene un formato válido.");
         return;
     }
     if (!contraseña || !contraseñaConfirmacion) {
         alert("Completa ambos campos de contraseña.");
+        return;
+    }
+    if (contraseña.length < 8) {
+        alert("La contraseña debe tener al menos 8 caracteres.");
         return;
     }
     if (contraseña !== contraseñaConfirmacion) {
@@ -44,12 +63,25 @@ $("#botonRegistrarme").on("click", function () { //con jquery
         alert("Debes aceptar los términos y condiciones.");
         return;
     }
-    //crear cuenta
-    alert("Tu cuenta ha sido creada con éxito. Verifica tu correo electrónico");
-    $("#correoRegistrar").val(""); //que se borren campos
-    $("#contraseñaRegistrar").val("");
-    $("#contraseñaConfirmacion").val("");
-    $("#checkTerminos").prop("checked", false); 
+    if (!nombre) {
+        alert("Nombre es obligatorio.");
+        return;
+    }
+    // Crear cuenta
+    $.post("php/registro.php", { nombre: nombre, correo: correo, contrasena: contraseña }, function (resp) {
+        alert(resp.mensaje);
+        if (resp.ok) {
+            $("#nombreRegistrar").val("");
+            $("#correoRegistrar").val("");
+            $("#contraseñaRegistrar").val("");
+            $("#contraseñaConfirmacion").val("");
+            $("#checkTerminos").prop("checked", false);
+            $("#ventanaRegistrar").hide();
+            overlay.style.display = "none";
+        }
+    }, "json").fail(function (xhr, textStatus) {
+        alert(mensajeErrorAjax(xhr, textStatus));
+    });
 });
 
 
@@ -58,7 +90,7 @@ $("#botonIngresar").on("click", function () { //con jquery
     overlay.style.display = "block"; //muestra fondo gris
 });
 
-$("#botonIniciarSesion").on("click", function () { //con jquery
+$("#botonIniciarSesion").on("click", function () {
     const correo = $("#correoInicioSesion").val().trim();
     const contraseña = $("#contraseñaInicioSesion").val().trim();
     // Validaciones
@@ -66,22 +98,25 @@ $("#botonIniciarSesion").on("click", function () { //con jquery
         alert("El correo es obligatorio.");
         return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) { //regex
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
         alert("El correo no tiene un formato válido.");
         return;
     }
-    if (!contraseña) { 
-        alert("Completa ambos campos de contraseña.");
+    if (!contraseña) {
+        alert("Ingresa tu contraseña.");
         return;
-    } 
-    //if contraseña y correo no coinciden con lo de la base de datos
-      //alert("Tu contraseña y/o correo son inconrectos.");
-        //return;
-    //}
-    $("#correoInicioSesion").val(""); //que se borren campos
-    $("#contraseñaInicioSesion").val("");
-    $("#ventanaIngresar").hide(); //que se muestre el forumalio de registar
-    overlay.style.display = "none"; // fondo gris
+    }
+
+    $.post("php/login.php", { correo: correo, contrasena: contraseña }, function (resp) {
+        if (resp.ok) {
+            window.location.href = "app.php";
+        } else {
+            alert(resp.mensaje);
+            $("#contraseñaInicioSesion").val(""); // solo borra la contraseña para reintentar
+        }
+    }, "json").fail(function (xhr, textStatus) {
+        alert(mensajeErrorAjax(xhr, textStatus));
+    });
 });
 
 
