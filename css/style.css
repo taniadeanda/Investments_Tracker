@@ -225,7 +225,7 @@ section {
 
 #grafica img {
   width: 100%;
-  height: auto;        
+  height: auto;        /* Agregar un texto default si no hay inversiones*/
   display: block;
   border-radius: 10px;   
 }

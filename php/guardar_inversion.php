@@ -2,10 +2,9 @@
 <?php
 session_start();
 header("Content-Type: application/json; charset=utf-8");
-
 require "conexion.php";
 
-// 1. Verificar que el usuario haya iniciado sesión
+//Verifica que el usuario haya iniciado sesión
 if (!isset($_SESSION["usuario_id"])) {
     http_response_code(401);
     echo json_encode([
@@ -15,7 +14,7 @@ if (!isset($_SESSION["usuario_id"])) {
     exit;
 }
 
-// 2. Aceptar solamente solicitudes POST
+//solo solicitudes POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
     echo json_encode([
@@ -25,12 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-// 3. Recibir los datos del formulario
+//ecibir datos del formulario
 $plataforma = trim($_POST["plataforma"] ?? "");
 $cantidad = $_POST["cantidad"] ?? "";
 $rendimiento = $_POST["rendimiento"] ?? "";
 
-// 4. Validar los datos
+//Validar 
 if (
     $plataforma === "" ||
     mb_strlen($plataforma) > 100 ||
@@ -48,12 +47,10 @@ if (
     exit;
 }
 
-try {
-    // 5. Guardar la inversión del usuario autenticado
+try { //Guardar la inversión
     $sql = "INSERT INTO inversiones
             (ID_usuario, plataforma, cantidad, rendimiento)
             VALUES (?, ?, ?, ?)";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $_SESSION["usuario_id"],
@@ -61,7 +58,6 @@ try {
         $cantidad,
         $rendimiento
     ]);
-
     echo json_encode([
         "ok" => true,
         "mensaje" => "Inversión guardada correctamente.",
@@ -70,7 +66,6 @@ try {
 
 } catch (PDOException $e) {
     error_log($e->getMessage());
-
     http_response_code(500);
     echo json_encode([
         "ok" => false,

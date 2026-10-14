@@ -19,7 +19,7 @@ let graficaInversiones = null;
 $("#botonCerrarSesion").on("click", function () { //con jquery
     //CERRAR login SESION
     //ventana confirmación?
-    window.location.href = '../index.html';
+    window.location.href = 'index.html';
     overlay.style.display = "none"; //oculda fondo gris
 });
 
@@ -153,13 +153,28 @@ botonEditarEliminarInversion.on("click", function () {
     if (!confirm(`¿Seguro que quieres eliminar "${eliminada.plataforma}"?`)) {
         return;
     }
-    inversionesActuales.splice(indice, 1);   // quita del arreglo
-    renderizarTabla();                        // actualiza la tabla
-    actualizarGrafica(inversionesActuales);   // actualiza la gráfica
-    listaDesplegableInversiones();            // actualiza los selects
-    ventanaEliminarInversion.hide();
-    overlay.style.display = "none";
-    alert(`La inversión "${eliminada.plataforma}" se eliminó correctamente.`);
+    $.ajax({
+        url: "php/eliminar_inversion.php",
+        type: "POST",
+        dataType: "json",
+        data: { id: eliminada.id },
+        success: function (resp) {
+            if (!resp.ok) {
+                alert(resp.mensaje || "No se pudo eliminar.");
+                return;
+            }
+            inversionesActuales.splice(indice, 1);
+            renderizarTabla();
+            actualizarGrafica(inversionesActuales);
+            listaDesplegableInversiones();
+            ventanaEliminarInversion.hide();
+            overlay.style.display = "none";
+            alert(`La inversión "${eliminada.plataforma}" se eliminó correctamente.`);
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert("Error al eliminar la inversión.");
+    }
 });
 
 $("#listaInversionesEditar").on("change", function () {
@@ -185,18 +200,43 @@ $("#botonEditarGuardarInversion").on("click", function () {
         alert("Por favor completa todos los campos correctamente.");
         return;
     }
-    inversionesActuales[indice] = {
+const inv = inversionesActuales[indice];
+$.ajax({
+    url: "php/editar_inversion.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+        id: inv.id,           // 👈 el id de la BD
         plataforma: plataforma,
         cantidad: cantidad,
         rendimiento: rendimiento
-    };
-    renderizarTabla();                       // la función del paso anterior
-    actualizarGrafica(inversionesActuales);
-    listaDesplegableInversiones();
-    limpiarFormularioEditar();
-    ventanaEditarInversion.hide();
-    overlay.style.display = "none";
-    alert("¡Inversión actualizada!");
+    },
+    success: function (resp) {
+        if (!resp.ok) {
+            alert(resp.mensaje || "No se pudo actualizar.");
+            return;
+        }
+        // Solo actualizamos localmente si el servidor confirmó
+        inversionesActuales[indice] = {
+            id: inv.id,
+            plataforma: plataforma,
+            cantidad: cantidad,
+            rendimiento: rendimiento
+        };
+        renderizarTabla();
+        actualizarGrafica(inversionesActuales);
+        listaDesplegableInversiones();
+        limpiarFormularioEditar();
+        ventanaEditarInversion.hide();
+        overlay.style.display = "none";
+        alert("¡Inversión actualizada!");
+    },
+    error: function (xhr) {
+        console.error(xhr.responseText);
+        alert("Error al actualizar la inversión.");
+    }
+});
+});
 });
 
 function limpiarFormularioEditar() {
@@ -252,7 +292,9 @@ $("#botonGuardarInversion").on("click", function () {
             actualizarGrafica(inversionesActuales);
             listaDesplegableInversiones();
             // 5. Limpiar el formulario
-            $("#nuevaInversion, .overlay").hide(); //no se oculta el overlay?
+            $("#nuevaInversion").hide(); //no se oculta el overlay?
+            //$(overlay).hide(); //no se oculta el overlay?
+            //$(".overlay").hide(); //no se oculta el overlay?
             $("#plataforma, #cantidad, #rendimiento").val("");
             alert("¡Nueva inversión guardada correctamente!");
         },
@@ -399,3 +441,23 @@ function actualizarResumen(inversiones) {
         console.error("No se pudo cargar inversiones.json");
     }
 });*/
+
+$.ajax({
+    url: "php/obtener_inversiones.php",
+    method: "GET",
+    dataType: "json",
+    success: function (resp) {
+        if (!resp.ok) {
+            console.warn("No se pudieron cargar inversiones:", resp.mensaje);
+            return;
+        }
+        inversionesActuales = resp.inversiones;
+        renderizarTabla();
+        listaDesplegableInversiones();
+        actualizarGrafica(inversionesActuales);
+    },
+    error: function (xhr, status, error) {
+        console.error("Error al cargar inversiones:", status, error);
+        console.log("Respuesta:", xhr.responseText);
+    }
+});

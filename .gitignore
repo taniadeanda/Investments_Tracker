@@ -1,0 +1,27 @@
+# Variables de entorno (¡nunca subir!)
+.env
+.env.local
+.env.*.local
+
+# Credenciales y secretos
+credentials.json
+client_secret*.json
+service-account*.json
+*.pem
+*.key
+client_secret_323371694970-rcmqn5s44ajmv2p7ipq7i605ek1sd5js.apps.googleusercontent.com.json
+
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
