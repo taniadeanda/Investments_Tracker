@@ -211,27 +211,63 @@ function renderizarTabla() { //confomre al arreglo
 }
 
 //const bottonGuardarInversion = document.querySelector("#botonGuardarInversion");
-$("#botonGuardarInversion").on("click", function () { //con jquery
+$("#botonGuardarInversion").on("click", function () {
     const plataforma = $("#plataforma").val().trim();
     const cantidad = quitarFormato($("#cantidad").val());
     const rendimiento = parseFloat($("#rendimiento").val());
-    if (!plataforma || isNaN(cantidad) || isNaN(rendimiento) || cantidad <= 0) {
+    if (
+        !plataforma ||
+        isNaN(cantidad) ||
+        isNaN(rendimiento) ||
+        cantidad <= 0
+    ) {
         alert("Por favor completa todos los campos correctamente.");
         return;
     }
-    const nueva = {
-        plataforma: plataforma,
-        cantidad: cantidad,
-        rendimiento: rendimiento
-    };
-    inversionesActuales.push(nueva); 
-    agregarFila(plataforma, cantidad, rendimiento);
-    actualizarGrafica(inversionesActuales);
-    listaDesplegableInversiones();
-    $("#nuevaInversion, #overlay").hide();
-    $("#plataforma, #cantidad, #rendimiento").val("");
-    alert("¡Nueva inversión creada!");
+    //Envia los datos a PHP con ajax
+    $.ajax({
+        url: "php/guardar_inversion.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            plataforma: plataforma,
+            cantidad: cantidad,
+            rendimiento: rendimiento
+        },
+        // 3. Se ejecuta cuando PHP confirma que se guardó
+        success: function (respuesta) {
+            if (!respuesta.ok) {
+                alert(respuesta.mensaje || "No se pudo guardar la inversión.");
+                return;
+            }
+            const nueva = {
+                ID_inversion: respuesta.id,
+                plataforma: plataforma,
+                cantidad: cantidad,
+                rendimiento: rendimiento
+            };
+            // 4. Actualizar la interfaz
+            inversionesActuales.push(nueva);
+            agregarFila(plataforma, cantidad, rendimiento);
+            actualizarGrafica(inversionesActuales);
+            listaDesplegableInversiones();
+            // 5. Limpiar el formulario
+            $("#nuevaInversion, .overlay").hide(); //no se oculta el overlay?
+            $("#plataforma, #cantidad, #rendimiento").val("");
+            alert("¡Nueva inversión guardada correctamente!");
+        },
+        // 6. Se ejecuta si falla la solicitud
+        error: function (xhr) {
+            if (xhr.status === 401) {
+                alert("Debes iniciar sesión para guardar inversiones.");
+            } else {
+                alert("Ocurrió un error al guardar la inversión. Inténtalo de nuevo.");
+                console.error(xhr.responseText);
+            }
+        }
+    });
 });
+
 
 function agregarFila(plataforma, cantidad, rendimiento) {
     const signo = rendimiento > 0 ? "+" : "";
@@ -343,12 +379,7 @@ function actualizarResumen(inversiones) {
 
 
 
-
-
-
-
-
-$.ajax({ //traer/pedir datos del servidor sin recargar la pagina
+/*$.ajax({ //traer/pedir datos del servidor sin recargar la pagina
     url: "inversiones.json",
     method: "GET",
     dataType: "json",
@@ -367,4 +398,4 @@ $.ajax({ //traer/pedir datos del servidor sin recargar la pagina
     error: function () {
         console.error("No se pudo cargar inversiones.json");
     }
-});
+});*/
