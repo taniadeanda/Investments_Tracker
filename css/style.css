@@ -1,12 +1,17 @@
 /* Reset básico */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #F0F1F2;
+  background-color: #f0f1f2;
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   color: #222;
 }
 
@@ -21,14 +26,19 @@ body {
 }
 
 .menu h1 {
-  margin: 0;         
+  margin: 0;
   font-size: 20px;
 }
 
 .menu nav {
   display: flex;
   gap: 8px;
-  margin-left: auto;       /* empuja los botones a la derecha */
+  margin-left: auto; /* empuja los botones a la derecha */
+}
+
+#iconoPerfil {
+  width: 10%;
+  align-content: flex-start;
 }
 
 .menu button {
@@ -67,13 +77,13 @@ body {
 
 #landingP {
   display: flex;
-  height: 500px; 
-  align-items: center;      /* centra verticalmente */
+  height: 500px;
+  align-items: center; /* centra verticalmente */
 }
 
 #fotoLanding {
   width: 60%;
-  max-width: 60%;           /* evita que se desborde */
+  max-width: 60%; /* evita que se desborde */
   margin-left: -90px;
 }
 
@@ -89,13 +99,13 @@ body {
 
 .cards {
   display: flex;
-  gap: 16px;              /* separación entre tarjetas */
+  gap: 16px; /* separación entre tarjetas */
   margin-top: 20px;
-  flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+  flex-wrap: wrap; /* por si se encogen en pantallas chicas */
 }
 
 .card {
-  background-color: #ffffff;  
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 16px 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -104,7 +114,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .card:hover {
@@ -129,7 +141,8 @@ body {
   margin: 0;
 }
 
-.celda, input {
+.celda,
+input {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -139,7 +152,9 @@ body {
   color: #222;
   font-family: inherit;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .celda:hover {
@@ -163,8 +178,10 @@ body {
   color: #16a34a;
 }
 
-#botonGuardarInversion, #botonCancelarInversion, .botones {
-  flex: 1;                /* cada botón ocupa 50% del ancho */
+#botonGuardarInversion,
+#botonCancelarInversion,
+.botones {
+  flex: 1; /* cada botón ocupa 50% del ancho */
   background-color: #111;
   color: #fff;
   border: none;
@@ -190,7 +207,10 @@ body {
   transition: background-color 0.15s ease;
 }
 
-#botonesAgregarInversion, #botonesIniciarSesion, #botonesEditarInversion, #botonesEliminarInversion {
+#botonesAgregarInversion,
+#botonesIniciarSesion,
+#botonesEditarInversion,
+#botonesEliminarInversion {
   display: flex;
   gap: 12px;
   width: 100%;
@@ -198,7 +218,10 @@ body {
   border-radius: 10px;
 }
 
-#botonAgregarNuevaInversion:hover,.boton:hover, #botonGuardarInversion:hover, #botonCancelarInversion:hover {
+#botonAgregarNuevaInversion:hover,
+.boton:hover,
+#botonGuardarInversion:hover,
+#botonCancelarInversion:hover {
   background-color: #333;
 }
 
@@ -207,69 +230,72 @@ input {
   margin-bottom: 10px;
   width: 100%;
   margin-top: 5px;
-  flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+  flex-wrap: wrap; /* por si se encogen en pantallas chicas */
 }
 
 section {
-  margin-bottom: 48px;  
+  margin-bottom: 48px;
   margin-top: 48px;
 }
 
 #grafica {
   width: 100%;
-  margin: 48px 0;    
+  margin: 48px 0;
   display: block;
   background-color: white;
-  border-radius: 10px;   
+  border-radius: 10px;
 }
 
 #grafica img {
   width: 100%;
-  height: auto;        /* Agregar un texto default si no hay inversiones*/
+  height: auto; /* Agregar un texto default si no hay inversiones*/
   display: block;
-  border-radius: 10px;   
+  border-radius: 10px;
 }
 
 .ventana {
-    position: fixed;
-    top: 40%; /*a la mitad de la pantalla horizontal y vertical*/
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    width: 350px;
-    display: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 40%; /*a la mitad de la pantalla horizontal y vertical*/
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  display: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
 }
 
 .linksVentanas {
   color: grey;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
 }
 
 .terminos-label {
-    display: flex;
-    font-size: 14px;
-    align-items: center;        /* ✅ centrado VERTICAL (checkbox vs texto) */
+  display: flex;
+  font-size: 14px;
+  align-items: center; /* ✅ centrado VERTICAL (checkbox vs texto) */
 }
 
 #ventanaTerminosCondiciones {
-  max-height: 500px;      /* altura máxima del área de texto */
-  overflow-y: auto;       /* barra de scroll solo si el texto no cabe */
+  max-height: 500px; /* altura máxima del área de texto */
+  overflow-y: auto; /* barra de scroll solo si el texto no cabe */
   padding: 10px;
   text-align: justify;
   border: 1px solid #ccc;
@@ -285,63 +311,65 @@ section {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-#botonIniciarSesion, #botonRegistrarme, #botonRecuperarCuenta {
+#botonIniciarSesion,
+#botonRegistrarme,
+#botonRecuperarCuenta {
   display: flex;
   margin-bottom: 10px;
   width: 100%;
   margin-top: 15px;
   text-align: center;
   justify-content: center;
-  flex-wrap: wrap;        /* por si se encogen en pantallas chicas */
+  flex-wrap: wrap; /* por si se encogen en pantallas chicas */
 }
 
 .contenedor-grafica {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 35px;
-    flex-wrap: wrap;
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  flex-wrap: wrap;
+  padding: 20px;
 }
 
 .pastel {
-    width: 280px;
-    height: 280px;
+  width: 280px;
+  height: 280px;
 }
 
 #leyendaInversiones {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 190px;
 }
 
 .etiqueta-inversion {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .color-etiqueta {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
-    flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .detalle-inversion {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .nombre-plataforma {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .monto-inversion {
-    color: #777;
-    font-size: 14px;
+  color: #777;
+  font-size: 14px;
 }
 
 .listaDesplegable {
@@ -355,7 +383,9 @@ section {
   margin-bottom: 10px;
   font-family: inherit;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   width: 100%;
 }
 

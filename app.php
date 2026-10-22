@@ -18,12 +18,13 @@ if (!isset($_SESSION["usuario_id"])) {
   <header class="menu">
     <h1>Investment Tracker</h1>
     <nav>
+      <img id="iconoPerfil" src="assets/icono_perfil.png">
       <button id="botonCerrarSesion">Cerrar sesión</button>
     </nav>
   </header>
 
   <main class="contenido">
-    
+
     <section class="resumen">
       <h2>Resumen</h2>
         <div class="cards">

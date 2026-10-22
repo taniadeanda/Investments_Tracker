@@ -1,29 +1,30 @@
-
 <?php
 #conecta a la BD
-$host = "localhost"; //datos de conexión a db
-$base_datos = "investment_tracker";
-$usuario = "root";
-$contrasena = ""; //está mal tener la contraseña en texto plano 
+//$host = "localhost"; //datos de conexión a db
+//$base_datos = "investment_tracker";
+//$usuario = "root";
+//$contrasena = ""; //está mal tener la contraseña en texto plano 
 //Los datos van en variables de entorno (.env) que no se suben al repo
+//Conclusión: InfinityFree no admite variables de entorno reales ni archivos .env, la forma correcta 
+// modificar directamente las credenciales de conexión a la base de datos en conexion.php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$host     = $_ENV['DB_HOST'] ?? 'localhost';
+$base     = $_ENV['DB_NAME'];
+$usuario  = $_ENV['DB_USER'];
+$contrasena = $_ENV['DB_PASS'];
 
 try {
-    $pdo = new PDO( //objeto para conectarse
-        "mysql:host=$host;dbname=$base_datos;charset=utf8mb4",
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$base;charset=utf8mb4",
         $usuario,
-        $contrasena 
+        $contrasena,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
-
-    $pdo->setAttribute( //configura como se comporta PDO cuando hay errores
-        PDO::ATTR_ERRMODE, //esta configurando errores
-        PDO::ERRMODE_EXCEPTION //lanza excepciones cuando hay errores
-    );
-
-} catch (PDOException $e) { //exception tipo PDOExepction y la guarda en e
-    error_log($e->getMessage()); //mensaje error
-    http_response_code(500); //codigo error
-    echo json_encode(["ok" => false, "mensaje" => "No se pudo conectar con la base de datos."]); //Convierte un array de PHP en un string JSON y lo envía al cliente.
-    exit;
+} catch (PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
 }
-
-?>
